@@ -72,7 +72,7 @@ function pdfFileName(occupationLabel: string, weight: WeightId) {
 }
 
 /**
- * Public URL for files placed under `webapp/public/onet/` after `npm run sync-pdfs`.
+ * Public URL for files under `public/onet/` after `npm run sync-pdfs`.
  * Honors Vite `base` when the app is deployed under a subpath.
  */
 export function onetPublicUrl(pathUnderPublicOnet: string): string {

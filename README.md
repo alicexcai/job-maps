@@ -1,35 +1,44 @@
-# O\*NET Dashboard (webapp)
+# O\*NET Dashboard
 
-Vite + React viewer for the occupation sunburst PDFs.
+Vite + React static site for occupation sunburst PDFs. Production output is plain HTML/CSS/JS in `dist/` (no server runtime).
 
-## Self-contained deploy (this folder only)
+## Build locally
 
-1. **Include PDFs inside webapp**  
-   From the full repo, inside `webapp/`:
+```bash
+npm ci
+npm run build
+npm run preview
+```
 
-   ```bash
-   npm run copy-onet-from-monorepo
-   ```
+Open the URL Vite prints (default `http://localhost:4173/`).
 
-   That fills `data/onet-output/` with the same layout as `task-analysis/data/ONet/output/`.
+## Deploy to GitHub Pages
 
-2. **Build**
+This repo is set up for a **project site** at `https://alicexcai.github.io/job-maps/`.
 
-   ```bash
-   npm ci
-   npm run build
-   ```
+1. In the repo on GitHub: **Settings → Pages → Build and deployment → Source** → **GitHub Actions**.
+2. Push to `main`. The workflow `.github/workflows/deploy-pages.yml` runs `npm run build` with `VITE_BASE_PATH=/job-maps/` and publishes `dist/`.
 
-   `sync-pdfs` runs first and copies `data/onet-output/` → `public/onet/` (or uses `../data/ONet/output/` if the embedded folder is still empty).
+To test the Pages base path locally:
 
-3. **Deploy** the `dist/` output (or run `npm run preview` to test).  
-   PDF URLs use `import.meta.env.BASE_URL`, so if you host under a subpath, set `base` in `vite.config.ts` accordingly.
+```bash
+npm run build:pages
+npm run preview:pages
+```
+
+For another host or subpath, set `VITE_BASE_PATH` when building (must start and end with `/`, e.g. `/my-app/`).
+
+## PDF data
+
+PDFs live in `data/onet-output/` and are copied to `public/onet/` on build (`npm run sync-pdfs`). If `public/onet/` is already complete, sync is skipped.
+
+Layout matches the manifest in `scripts/onet-pdf-manifest.mjs`.
 
 ## Scripts
 
 | Script | Purpose |
 |--------|---------|
-| `npm run copy-onet-from-monorepo` | `../data/ONet/output/` → `data/onet-output/` |
-| `npm run sync-pdfs` | `data/onet-output/` (or monorepo fallback) → `public/onet/` |
-
-Manifest of PDF paths: `scripts/onet-pdf-manifest.mjs`.
+| `npm run dev` | Sync PDFs, then Vite dev server |
+| `npm run build` | Sync, typecheck, static build → `dist/` |
+| `npm run build:pages` | Build with `/job-maps/` base (GitHub Pages) |
+| `npm run preview` | Serve `dist/` locally |

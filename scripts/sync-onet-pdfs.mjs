@@ -3,12 +3,9 @@ import path from 'node:path'
 
 import { ONET_PDF_REL_PATHS } from './onet-pdf-manifest.mjs'
 
-const webappRoot = path.resolve(import.meta.dirname, '..')
-/** Self-contained bundle inside the webapp folder (for deploy-this-folder-only). */
-const embeddedDataRoot = path.resolve(webappRoot, 'data', 'onet-output')
-/** Full monorepo layout: task-analysis/data/ONet/output */
-const monorepoDataRoot = path.resolve(webappRoot, '..', 'data', 'ONet', 'output')
-const publicRoot = path.resolve(webappRoot, 'public', 'onet')
+const repoRoot = path.resolve(import.meta.dirname, '..')
+const embeddedDataRoot = path.resolve(repoRoot, 'data', 'onet-output')
+const publicRoot = path.resolve(repoRoot, 'public', 'onet')
 
 async function ensureDirForFile(filePath) {
   await mkdir(path.dirname(filePath), { recursive: true })
@@ -23,22 +20,48 @@ async function fileExists(filePath) {
   }
 }
 
-async function pickDataRoot() {
-  const probe = path.resolve(embeddedDataRoot, ONET_PDF_REL_PATHS[0])
-  if (await fileExists(probe)) {
-    return { root: embeddedDataRoot, label: 'webapp/data/onet-output' }
+async function allPresentUnder(root) {
+  for (const rel of ONET_PDF_REL_PATHS) {
+    if (!(await fileExists(path.resolve(root, rel)))) return false
   }
-  return { root: monorepoDataRoot, label: '../data/ONet/output (monorepo)' }
+  return true
 }
 
 async function main() {
-  const { root: dataRoot, label } = await pickDataRoot()
-  console.log(`O*NET PDF source: ${label}`)
+  const embeddedReady = await allPresentUnder(embeddedDataRoot)
+  const publicReady = await allPresentUnder(publicRoot)
+
+  if (!embeddedReady && publicReady) {
+    console.log('PDFs already in public/onet/; skipping sync.')
+    return
+  }
+
+  if (!embeddedReady) {
+    let firstMissing = null
+    for (const rel of ONET_PDF_REL_PATHS) {
+      if (!(await fileExists(path.resolve(embeddedDataRoot, rel)))) {
+        firstMissing = rel
+        break
+      }
+    }
+    console.error(
+      [
+        'Missing O*NET PDFs under data/onet-output/.',
+        'Add PDFs there (see data/onet-output/README.md) or ensure public/onet/ is complete.',
+        firstMissing ? `First missing: ${firstMissing}` : '',
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    )
+    process.exit(1)
+  }
+
+  console.log('O*NET PDF source: data/onet-output')
 
   const missing = []
 
   for (const rel of ONET_PDF_REL_PATHS) {
-    const src = path.resolve(dataRoot, rel)
+    const src = path.resolve(embeddedDataRoot, rel)
     const dest = path.resolve(publicRoot, rel)
 
     if (!(await fileExists(src))) {
@@ -51,19 +74,11 @@ async function main() {
   }
 
   if (missing.length) {
-    console.error(
-      [
-        'Missing expected PDFs (skipping copy). Populate webapp/data/onet-output/ or run:',
-        '  npm run copy-onet-from-monorepo',
-        'when the parent task-analysis repo is available.',
-        'Missing:',
-        ...missing.map((m) => `- ${m}`),
-      ].join('\n'),
-    )
+    console.error(['Missing expected PDFs:', ...missing.map((m) => `- ${m}`)].join('\n'))
     process.exit(1)
   }
 
-  console.log('Synced O*NET PDFs into webapp/public/onet/')
+  console.log('Synced O*NET PDFs into public/onet/')
 }
 
 main().catch((err) => {

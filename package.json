@@ -1,5 +1,5 @@
 {
-  "name": "webapp",
+  "name": "job-maps",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,8 +8,10 @@
     "sync-pdfs": "node scripts/sync-onet-pdfs.mjs",
     "dev": "npm run sync-pdfs && vite",
     "build": "npm run sync-pdfs && tsc -b && vite build",
+    "build:pages": "node scripts/run-with-base.mjs /job-maps/ run build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:pages": "node scripts/run-with-base.mjs /job-maps/ run preview"
   },
   "dependencies": {
     "pdfjs-dist": "^5.6.205",
