@@ -6,6 +6,7 @@ import {
   VIEWS,
   WEIGHTS,
   usesWeightedRelevantPdfs,
+  weightLabel,
   type TrackId,
   type ViewId,
   type WeightId,
@@ -146,13 +147,16 @@ function App() {
                 <div className="meta">
                   <span className="pill">{track.label}</span>
                   <span className="pill">{VIEWS.find((v) => v.id === viewId)?.label ?? viewId}</span>
-                  {usesWeightedRelevantPdfs(viewId) && <span className="pill">Weight: {weightId}</span>}
+                  {usesWeightedRelevantPdfs(viewId) && (
+                    <span className="pill">Weight: {weightLabel(weightId)}</span>
+                  )}
                 </div>
               </div>
 
               {isUnavailable ? (
                 <div className="empty">
-                  This occupation doesn’t have a PDF for weight <code>{weightId}</code> in this view.
+                  This occupation doesn’t have a PDF for <code>{weightLabel(weightId)}</code> weight in this
+                  view.
                 </div>
               ) : (
                 <>

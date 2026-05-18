@@ -61,10 +61,14 @@ export function usesWeightedRelevantPdfs(view: ViewId): boolean {
 
 export const WEIGHTS: { id: WeightId; label: string }[] = [
   { id: 'unweighted', label: 'Unweighted' },
-  { id: 'IM', label: 'IM' },
-  { id: 'RT', label: 'RT' },
-  { id: 'FT', label: 'FT' },
+  { id: 'IM', label: 'Importance' },
+  { id: 'RT', label: 'Relevance' },
+  { id: 'FT', label: 'Frequency' },
 ]
+
+export function weightLabel(weight: WeightId): string {
+  return WEIGHTS.find((w) => w.id === weight)?.label ?? weight
+}
 
 function pdfFileName(occupationLabel: string, weight: WeightId) {
   if (weight === 'unweighted') return `${occupationLabel}.pdf`
