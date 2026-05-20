@@ -50,10 +50,6 @@ function App() {
 
   return (
     <div className={`page${isSingleOccupation ? ' single' : ''}`}>
-      <div className={`aboutCorner${isSingleOccupation ? ' aboutCorner--single' : ''}`}>
-        <AboutDialog />
-      </div>
-
       <header className={`header${isSingleOccupation ? ' single' : ''}`}>
         {!isSingleOccupation && (
           <div className="title">
@@ -97,23 +93,28 @@ function App() {
             </select>
           </label>
 
-          <label className="control">
+          <div className="control control--view">
             <span className="controlLabel">View</span>
-            <select
-              value={viewId}
-              onChange={(e) => {
-                const next = e.target.value as ViewId
-                setViewId(next)
-                if (!usesWeightedRelevantPdfs(next)) setWeightId('unweighted')
-              }}
-            >
-              {VIEWS.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.label}
-                </option>
-              ))}
-            </select>
-          </label>
+            <div className="controlRow">
+              <select
+                id="view-select"
+                className="controlSelect"
+                value={viewId}
+                onChange={(e) => {
+                  const next = e.target.value as ViewId
+                  setViewId(next)
+                  if (!usesWeightedRelevantPdfs(next)) setWeightId('unweighted')
+                }}
+              >
+                {VIEWS.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.label}
+                  </option>
+                ))}
+              </select>
+              <AboutDialog viewId={viewId} />
+            </div>
+          </div>
 
           <label className="control">
             <span className="controlLabel">Weight (relevant sunburst views)</span>

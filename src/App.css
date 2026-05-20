@@ -17,7 +17,6 @@
   align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding-right: 6.25rem;
 }
 
 .header.single {
@@ -27,7 +26,6 @@
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   padding: 6px 10px;
-  padding-right: 6.25rem;
   gap: 10px;
 }
 
@@ -256,31 +254,20 @@ select:disabled {
   color: var(--text-p);
 }
 
-.aboutCorner {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  z-index: 100;
+.control--view {
+  min-width: 0;
 }
 
-.aboutCorner--single {
-  top: 10px;
-  right: 10px;
+.controlRow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 0;
 }
 
-@media (max-width: 480px) {
-  .aboutCorner {
-    top: 16px;
-    right: 16px;
-  }
-
-  .header {
-    padding-right: 5.5rem;
-  }
-
-  .header.single {
-    padding-right: 5.5rem;
-  }
+.controlSelect {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .aboutOpen {
@@ -303,8 +290,26 @@ select:disabled {
   outline-offset: 2px;
 }
 
+.aboutOpen--inline {
+  flex-shrink: 0;
+  align-self: stretch;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 860px) {
+  .controlRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .aboutOpen--inline {
+    width: 100%;
+  }
+}
+
 .aboutDialog {
-  max-width: min(640px, 100vw - 32px);
+  max-width: min(720px, 100vw - 32px);
   width: 100%;
   padding: 0;
   border: 1px solid var(--border);
@@ -374,36 +379,54 @@ select:disabled {
   margin-bottom: 1.15rem;
 }
 
+.aboutSummary {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0 0 1.1rem;
+}
+
+.aboutBlock {
+  margin-bottom: 1rem;
+}
+
+.aboutBlock:last-child {
+  margin-bottom: 0;
+}
+
 .aboutBody h3 {
-  margin: 0 0 0.4rem;
-  font-size: 0.95rem;
-  color: var(--text-h);
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-p);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.aboutViewSection {
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border);
-}
-
-.aboutViewSection:first-of-type {
-  border-top: none;
-  padding-top: 0;
-}
-
-.aboutPoints {
+.aboutMeta {
   margin: 0;
-  padding-left: 1.15rem;
-}
-
-.aboutPoints li {
-  margin-bottom: 0.5rem;
   font-size: 0.88rem;
   line-height: 1.45;
   color: var(--text);
 }
 
-.aboutPoints li:last-child {
-  margin-bottom: 0;
+.aboutFormula {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.aboutFormula code {
+  display: block;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  background: var(--code-bg);
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: var(--text-h);
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .aboutBody p {
@@ -414,21 +437,6 @@ select:disabled {
 
 .aboutBody p:last-child {
   margin-bottom: 0;
-}
-
-.aboutLead {
-  font-size: 0.9rem;
-  margin-bottom: 1rem !important;
-  color: var(--text);
-  opacity: 0.95;
-}
-
-.aboutBody code {
-  font-family: var(--mono, ui-monospace, monospace);
-  font-size: 0.85em;
-  padding: 0.1em 0.35em;
-  border-radius: 4px;
-  background: var(--code-bg);
 }
 
 .aboutFooter {

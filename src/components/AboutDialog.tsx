@@ -1,23 +1,34 @@
-import { useRef } from 'react'
-import { ABOUT_VIEW_SECTIONS } from '../aboutContent'
+import { useEffect, useRef } from 'react'
+import { aboutForView } from '../aboutContent'
+import type { ViewId } from '../onetDashboard'
 
-export function AboutDialog({ className = '' }: { className?: string }) {
+type Props = {
+  viewId: ViewId
+}
+
+export function AboutDialog({ viewId }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null)
+  const { title, summary, dataSources, colorFormula } = aboutForView(viewId)
+
+  useEffect(() => {
+    dialogRef.current?.close()
+  }, [viewId])
 
   return (
     <>
       <button
         type="button"
-        className={`aboutOpen ${className}`.trim()}
+        className="aboutOpen aboutOpen--inline"
         onClick={() => dialogRef.current?.showModal()}
+        aria-label={`About ${title}`}
       >
-        About
+        About this view
       </button>
 
       <dialog ref={dialogRef} className="aboutDialog" aria-labelledby="about-title">
         <div className="aboutDialogInner">
           <header className="aboutHeader">
-            <h2 id="about-title">About these charts</h2>
+            <h2 id="about-title">{title}</h2>
             <button
               type="button"
               className="aboutClose"
@@ -29,22 +40,19 @@ export function AboutDialog({ className = '' }: { className?: string }) {
           </header>
 
           <div className="aboutBody">
-            <p className="aboutLead">
-              These charts are <strong>sunbursts</strong>—rings within rings that go from broad kinds of
-              work at the center to more specific work toward the edge. Pick a chart with the{' '}
-              <strong>View</strong> menu; each section below explains one of those options.
-            </p>
+            <p className="aboutSummary">{summary}</p>
 
-            {ABOUT_VIEW_SECTIONS.map((view) => (
-              <section key={view.id} className="aboutViewSection" aria-labelledby={`about-${view.id}`}>
-                <h3 id={`about-${view.id}`}>{view.title}</h3>
-                <ul className="aboutPoints">
-                  {view.details.map((detail) => (
-                    <li key={detail}>{detail}</li>
-                  ))}
-                </ul>
-              </section>
-            ))}
+            <section className="aboutBlock" aria-labelledby="about-sources-heading">
+              <h3 id="about-sources-heading">Data sources</h3>
+              <p className="aboutMeta">{dataSources}</p>
+            </section>
+
+            <section className="aboutBlock" aria-labelledby="about-formula-heading">
+              <h3 id="about-formula-heading">Color formula</h3>
+              <p className="aboutFormula">
+                <code>{colorFormula}</code>
+              </p>
+            </section>
           </div>
 
           <footer className="aboutFooter">
