@@ -62,12 +62,44 @@
   .controls.compact {
     grid-template-columns: 1fr;
   }
+
+  .controlGroup--weightColor .control--compact {
+    max-width: none;
+  }
 }
 
 .control {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.controlGroup--weightColor {
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.controlGroup--weightColor .control--compact {
+  flex: 1;
+  min-width: 0;
+  max-width: 148px;
+}
+
+.controlGroup--weightColor .control--compact:last-child {
+  max-width: 240px;
+}
+
+.controlGroup--weightColor .control--compact select {
+  width: 100%;
+  padding: 10px 8px;
+  font-size: 13px;
 }
 
 .controlLabel {

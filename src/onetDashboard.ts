@@ -1,10 +1,11 @@
-export type TrackId = 'retail_data' | 'nurse'
+export type TrackId = 'retail_data' | 'nurse' | 'media_intern'
 export type ViewId =
   | 'task_intensity'
   | 'ai_intensity'
   | 'ai_relevant'
   | 'ai_relevant_predicted'
 export type WeightId = 'unweighted' | 'IM' | 'RT' | 'FT'
+export type ColorId = 'blue_green' | 'blue_orange' | 'purple_blue' | 'purple_green'
 
 export type Occupation = {
   id: string
@@ -43,6 +44,11 @@ export const TRACKS: { id: TrackId; label: string; occupations: Occupation[] }[]
       { id: 'Nurse Practitioners', label: 'Nurse Practitioners' },
     ],
   },
+  {
+    id: 'media_intern',
+    label: 'Media Intern',
+    occupations: [{ id: 'Media intern activities', label: 'Media Intern' }],
+  },
 ]
 
 export const VIEWS: { id: ViewId; label: string }[] = [
@@ -57,6 +63,21 @@ export const VIEWS: { id: ViewId; label: string }[] = [
 
 export function usesWeightedRelevantPdfs(view: ViewId): boolean {
   return view === 'ai_relevant' || view === 'ai_relevant_predicted'
+}
+
+export function usesPredictedColorPdfs(view: ViewId): boolean {
+  return view === 'ai_relevant_predicted'
+}
+
+export const COLORS: { id: ColorId; label: string }[] = [
+  { id: 'blue_green', label: 'blue (observed) + green (predicted)' },
+  { id: 'blue_orange', label: 'blue (observed) + orange (predicted)' },
+  { id: 'purple_blue', label: 'purple (observed) + blue (predicted)' },
+  { id: 'purple_green', label: 'purple (observed) + green (predicted)' },
+]
+
+export function colorLabel(color: ColorId): string {
+  return COLORS.find((c) => c.id === color)?.label ?? color
 }
 
 export const WEIGHTS: { id: WeightId; label: string }[] = [
@@ -88,22 +109,39 @@ export function onetPublicUrl(pathUnderPublicOnet: string): string {
   return `${base}${rel}`
 }
 
-export function pdfUrlFor(occupationLabel: string, view: ViewId, weight: WeightId): string | null {
+export function pdfUrlFor(
+  occupationId: string,
+  view: ViewId,
+  weight: WeightId,
+  colorId: ColorId,
+): string | null {
   if (view === 'task_intensity') {
-    return onetPublicUrl(`onet/occupations/${occupationLabel}.pdf`)
+    return onetPublicUrl(`onet/occupations/${occupationId}.pdf`)
   }
 
   if (view === 'ai_intensity') {
-    return onetPublicUrl(`onet/occupations_ai_applicability/${occupationLabel}.pdf`)
+    return onetPublicUrl(`onet/occupations_ai_applicability/${occupationId}.pdf`)
   }
 
   if (view === 'ai_relevant' || view === 'ai_relevant_predicted') {
-    const file = pdfFileName(occupationLabel, weight)
+    const file = pdfFileName(occupationId, weight)
     // PATH_normal: Data Scientists only has an unweighted PDF in the current dataset
-    if (view === 'ai_relevant' && occupationLabel === 'Data Scientists' && weight !== 'unweighted') {
+    if (view === 'ai_relevant' && occupationId === 'Data Scientists' && weight !== 'unweighted') {
       return null
     }
-    const subdir = view === 'ai_relevant' ? 'PATH_normal' : 'PATH_predicted'
+    // PATH_normal: Media intern activities only has an unweighted PDF in the current dataset
+    if (view === 'ai_relevant' && occupationId === 'Media intern activities' && weight !== 'unweighted') {
+      return null
+    }
+    if (
+      view === 'ai_relevant_predicted' &&
+      occupationId === 'Media intern activities' &&
+      weight !== 'unweighted' &&
+      colorId !== 'purple_green'
+    ) {
+      return null
+    }
+    const subdir = view === 'ai_relevant' ? 'PATH_normal' : colorId
     return onetPublicUrl(`onet/occupations_relevant/${subdir}/${file}`)
   }
 

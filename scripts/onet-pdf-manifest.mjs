@@ -10,6 +10,7 @@ export const ONET_PDF_REL_PATHS = [
   'occupations/Licensed Practical and Licensed Vocational Nurses.pdf',
   'occupations/Registered Nurses.pdf',
   'occupations/Nurse Practitioners.pdf',
+  'occupations/Media intern activities.pdf',
 
   // View 2: AI intensity sunburst
   'occupations_ai_applicability/Business Intelligence Analysts.pdf',
@@ -18,6 +19,7 @@ export const ONET_PDF_REL_PATHS = [
   'occupations_ai_applicability/Licensed Practical and Licensed Vocational Nurses.pdf',
   'occupations_ai_applicability/Registered Nurses.pdf',
   'occupations_ai_applicability/Nurse Practitioners.pdf',
+  'occupations_ai_applicability/Media intern activities.pdf',
 
   // View 3: relevant tasks only (PATH_normal)
   'occupations_relevant/PATH_normal/Business Intelligence Analysts.pdf',
@@ -41,30 +43,8 @@ export const ONET_PDF_REL_PATHS = [
   'occupations_relevant/PATH_normal/Nurse Practitioners_IM.pdf',
   'occupations_relevant/PATH_normal/Nurse Practitioners_RT.pdf',
   'occupations_relevant/PATH_normal/Nurse Practitioners_FT.pdf',
-
-  // View 4: relevant + predictions (PATH_predicted)
-  'occupations_relevant/PATH_predicted/Business Intelligence Analysts.pdf',
-  'occupations_relevant/PATH_predicted/Business Intelligence Analysts_IM.pdf',
-  'occupations_relevant/PATH_predicted/Business Intelligence Analysts_RT.pdf',
-  'occupations_relevant/PATH_predicted/Business Intelligence Analysts_FT.pdf',
-  'occupations_relevant/PATH_predicted/Data Scientists.pdf',
-  'occupations_relevant/PATH_predicted/Data Scientists_IM.pdf',
-  'occupations_relevant/PATH_predicted/Data Scientists_RT.pdf',
-  'occupations_relevant/PATH_predicted/Data Scientists_FT.pdf',
-  'occupations_relevant/PATH_predicted/Retail Loss Prevention Specialists.pdf',
-  'occupations_relevant/PATH_predicted/Retail Loss Prevention Specialists_IM.pdf',
-  'occupations_relevant/PATH_predicted/Retail Loss Prevention Specialists_RT.pdf',
-  'occupations_relevant/PATH_predicted/Retail Loss Prevention Specialists_FT.pdf',
-  'occupations_relevant/PATH_predicted/Licensed Practical and Licensed Vocational Nurses.pdf',
-  'occupations_relevant/PATH_predicted/Licensed Practical and Licensed Vocational Nurses_IM.pdf',
-  'occupations_relevant/PATH_predicted/Licensed Practical and Licensed Vocational Nurses_RT.pdf',
-  'occupations_relevant/PATH_predicted/Licensed Practical and Licensed Vocational Nurses_FT.pdf',
-  'occupations_relevant/PATH_predicted/Registered Nurses.pdf',
-  'occupations_relevant/PATH_predicted/Registered Nurses_IM.pdf',
-  'occupations_relevant/PATH_predicted/Registered Nurses_RT.pdf',
-  'occupations_relevant/PATH_predicted/Registered Nurses_FT.pdf',
-  'occupations_relevant/PATH_predicted/Nurse Practitioners.pdf',
-  'occupations_relevant/PATH_predicted/Nurse Practitioners_IM.pdf',
-  'occupations_relevant/PATH_predicted/Nurse Practitioners_RT.pdf',
-  'occupations_relevant/PATH_predicted/Nurse Practitioners_FT.pdf',
+  'occupations_relevant/PATH_normal/Media intern activities.pdf',
 ]
+
+/** View 4 color schemes — synced as whole directories (see sync-onet-pdfs.mjs). */
+export const ONET_COLOR_SCHEME_DIRS = ['blue_green', 'blue_orange', 'purple_blue', 'purple_green']

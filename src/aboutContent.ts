@@ -37,7 +37,7 @@ const CONTENT: Record<ViewId, Omit<AboutViewContent, 'title'>> = {
       'The same as the (c) AI intensity (relevant tasks only) view, but with a predicted AI applicability for the atomic activities (second to last outer ring) and O*NET tasks. The predicted AI applicability is indicated in green and is derived using the closest ancestor score × (1 − 0.1 decay for each generation in between). This is a rough estimate—we are estimating AI applicability for a specific activity by looking at its closest ancestor’s score and applying that decay for each generation between them. We are currently working on a more sophisticated prediction model that will replace this formula.',
     dataSources: DATA_SOURCES_MARKET,
     colorFormula:
-      '→ purple color = market AI intenstiy = amount of AI and robotics revenue linked to that activity\n→ green color = predicted AI intensity = closest ancestor score x (1 - 0.1 decay for each generation in between)',
+      '→ observed color = market AI intenstiy = amount of AI and robotics revenue linked to that activity\n→ predicted color = predicted AI intensity = closest ancestor score x (1 - 0.1 decay for each generation in between)',
   },
 }
 

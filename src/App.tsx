@@ -5,11 +5,15 @@ import {
   TRACKS,
   VIEWS,
   WEIGHTS,
+  COLORS,
   usesWeightedRelevantPdfs,
+  usesPredictedColorPdfs,
   weightLabel,
+  colorLabel,
   type TrackId,
   type ViewId,
   type WeightId,
+  type ColorId,
   pdfUrlFor,
 } from './onetDashboard'
 import { AboutDialog } from './components/AboutDialog'
@@ -19,6 +23,7 @@ function App() {
   const [trackId, setTrackId] = useState<TrackId>('retail_data')
   const [viewId, setViewId] = useState<ViewId>('task_intensity')
   const [weightId, setWeightId] = useState<WeightId>('unweighted')
+  const [colorId, setColorId] = useState<ColorId>('blue_green')
   const [occupationFocus, setOccupationFocus] = useState<string>('__all__')
 
   const track = useMemo(() => TRACKS.find((t) => t.id === trackId) ?? TRACKS[0], [trackId])
@@ -84,7 +89,7 @@ function App() {
           <label className="control">
             <span className="controlLabel">Occupation</span>
             <select value={occupationFocus} onChange={(e) => setOccupationFocus(e.target.value)}>
-              <option value="__all__">All 3</option>
+              <option value="__all__">All {track.occupations.length}</option>
               {track.occupations.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.label}
@@ -104,6 +109,7 @@ function App() {
                   const next = e.target.value as ViewId
                   setViewId(next)
                   if (!usesWeightedRelevantPdfs(next)) setWeightId('unweighted')
+                  if (!usesPredictedColorPdfs(next)) setColorId('blue_green')
                 }}
               >
                 {VIEWS.map((v) => (
@@ -116,26 +122,42 @@ function App() {
             </div>
           </div>
 
-          <label className="control">
-            <span className="controlLabel">Weight (relevant sunburst views)</span>
-            <select
-              value={weightId}
-              onChange={(e) => setWeightId(e.target.value as WeightId)}
-              disabled={!usesWeightedRelevantPdfs(viewId)}
-            >
-              {WEIGHTS.map((w) => (
-                <option key={w.id} value={w.id}>
-                  {w.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div className="controlGroup controlGroup--weightColor">
+            <label className="control control--compact">
+              <span className="controlLabel">Weight</span>
+              <select
+                value={weightId}
+                onChange={(e) => setWeightId(e.target.value as WeightId)}
+                disabled={!usesWeightedRelevantPdfs(viewId)}
+              >
+                {WEIGHTS.map((w) => (
+                  <option key={w.id} value={w.id}>
+                    {w.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="control control--compact">
+              <span className="controlLabel">Color</span>
+              <select
+                value={colorId}
+                onChange={(e) => setColorId(e.target.value as ColorId)}
+                disabled={!usesPredictedColorPdfs(viewId)}
+              >
+                {COLORS.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
       </header>
 
       <main className={`grid${isSingleOccupation ? ' single' : ''}`} aria-label="PDF visualizations">
         {occupationsToShow.map((o) => {
-          const url = pdfUrlFor(o.label, viewId, weightId)
+          const url = pdfUrlFor(o.id, viewId, weightId, colorId)
           const isUnavailable = url == null
           return (
             <section
@@ -150,6 +172,9 @@ function App() {
                   <span className="pill">{VIEWS.find((v) => v.id === viewId)?.label ?? viewId}</span>
                   {usesWeightedRelevantPdfs(viewId) && (
                     <span className="pill">Weight: {weightLabel(weightId)}</span>
+                  )}
+                  {usesPredictedColorPdfs(viewId) && (
+                    <span className="pill">Color: {colorLabel(colorId)}</span>
                   )}
                 </div>
               </div>
