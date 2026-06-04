@@ -17,6 +17,7 @@ import {
   pdfUrlFor,
 } from './onetDashboard'
 import { AboutDialog } from './components/AboutDialog'
+import { OverviewAboutDialog } from './components/OverviewAboutDialog'
 import { PdfCanvas } from './components/PdfCanvas'
 
 function App() {
@@ -55,6 +56,10 @@ function App() {
 
   return (
     <div className={`page${isSingleOccupation ? ' single' : ''}`}>
+      <div className="pageOverviewCorner">
+        <OverviewAboutDialog />
+      </div>
+
       <header className={`header${isSingleOccupation ? ' single' : ''}`}>
         {!isSingleOccupation && (
           <div className="title">

@@ -11,6 +11,7 @@ export const ONET_PDF_REL_PATHS = [
   'occupations/Registered Nurses.pdf',
   'occupations/Nurse Practitioners.pdf',
   'occupations/Media intern activities.pdf',
+  'occupations/Heating, Air Conditioning, and Refrigeration Mechanics and Installers.pdf',
 
   // View 2: AI intensity sunburst
   'occupations_ai_applicability/Business Intelligence Analysts.pdf',
@@ -20,6 +21,7 @@ export const ONET_PDF_REL_PATHS = [
   'occupations_ai_applicability/Registered Nurses.pdf',
   'occupations_ai_applicability/Nurse Practitioners.pdf',
   'occupations_ai_applicability/Media intern activities.pdf',
+  'occupations_ai_applicability/Heating, Air Conditioning, and Refrigeration Mechanics and Installers.pdf',
 
   // View 3: relevant tasks only (PATH_normal)
   'occupations_relevant/PATH_normal/Business Intelligence Analysts.pdf',
@@ -44,6 +46,10 @@ export const ONET_PDF_REL_PATHS = [
   'occupations_relevant/PATH_normal/Nurse Practitioners_RT.pdf',
   'occupations_relevant/PATH_normal/Nurse Practitioners_FT.pdf',
   'occupations_relevant/PATH_normal/Media intern activities.pdf',
+  'occupations_relevant/PATH_normal/Heating, Air Conditioning, and Refrigeration Mechanics and Installers.pdf',
+  'occupations_relevant/PATH_normal/Heating, Air Conditioning, and Refrigeration Mechanics and Installers_IM.pdf',
+  'occupations_relevant/PATH_normal/Heating, Air Conditioning, and Refrigeration Mechanics and Installers_RT.pdf',
+  'occupations_relevant/PATH_normal/Heating, Air Conditioning, and Refrigeration Mechanics and Installers_FT.pdf',
 ]
 
 /** View 4 color schemes — synced as whole directories (see sync-onet-pdfs.mjs). */

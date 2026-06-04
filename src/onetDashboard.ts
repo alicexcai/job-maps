@@ -1,4 +1,7 @@
-export type TrackId = 'retail_data' | 'nurse' | 'media_intern'
+export type TrackId = 'retail_data' | 'nurse' | 'media_intern' | 'hvac'
+
+const HVAC_OCCUPATION_ID =
+  'Heating, Air Conditioning, and Refrigeration Mechanics and Installers'
 export type ViewId =
   | 'task_intensity'
   | 'ai_intensity'
@@ -20,6 +23,7 @@ export const OCCUPATION_ONET_SUMMARY_URL: Record<string, string> = {
   'Licensed Practical and Licensed Vocational Nurses': 'https://www.onetonline.org/link/summary/29-2061.00',
   'Registered Nurses': 'https://www.onetonline.org/link/summary/29-1141.00',
   'Nurse Practitioners': 'https://www.onetonline.org/link/summary/29-1171.00',
+  [HVAC_OCCUPATION_ID]: 'https://www.onetonline.org/link/summary/49-9021.00',
 }
 
 export const TRACKS: { id: TrackId; label: string; occupations: Occupation[] }[] = [
@@ -48,6 +52,11 @@ export const TRACKS: { id: TrackId; label: string; occupations: Occupation[] }[]
     id: 'media_intern',
     label: 'Media Intern',
     occupations: [{ id: 'Media intern activities', label: 'Media Intern' }],
+  },
+  {
+    id: 'hvac',
+    label: 'HVAC',
+    occupations: [{ id: HVAC_OCCUPATION_ID, label: HVAC_OCCUPATION_ID }],
   },
 ]
 
