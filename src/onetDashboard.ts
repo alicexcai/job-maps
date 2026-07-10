@@ -1,4 +1,13 @@
-export type TrackId = 'retail_data' | 'nurse' | 'media_intern' | 'hvac'
+export type TrackId =
+  | 'retail_data'
+  | 'nurse'
+  | 'media_intern'
+  | 'hvac'
+  | 'software_development'
+  | 'accounting'
+  | 'business_consulting'
+  | 'financial_services'
+  | 'it_services'
 
 const HVAC_OCCUPATION_ID =
   'Heating, Air Conditioning, and Refrigeration Mechanics and Installers'
@@ -24,6 +33,15 @@ export const OCCUPATION_ONET_SUMMARY_URL: Record<string, string> = {
   'Registered Nurses': 'https://www.onetonline.org/link/summary/29-1141.00',
   'Nurse Practitioners': 'https://www.onetonline.org/link/summary/29-1171.00',
   [HVAC_OCCUPATION_ID]: 'https://www.onetonline.org/link/summary/49-9021.00',
+  'General and Operations Managers': 'https://www.onetonline.org/link/summary/11-1021.00',
+  'Software Developers': 'https://www.onetonline.org/link/summary/15-1252.00',
+  'Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products':
+    'https://www.onetonline.org/link/summary/41-4012.00',
+  'Accountants and Auditors': 'https://www.onetonline.org/link/summary/13-2011.00',
+  'Computer Systems Analysts': 'https://www.onetonline.org/link/summary/15-1211.00',
+  'Management Analysts': 'https://www.onetonline.org/link/summary/13-1111.00',
+  'Loan Officers': 'https://www.onetonline.org/link/summary/13-2072.00',
+  'Engineers, All Other': 'https://www.onetonline.org/link/summary/17-2199.00',
 }
 
 export const TRACKS: { id: TrackId; label: string; occupations: Occupation[] }[] = [
@@ -57,6 +75,54 @@ export const TRACKS: { id: TrackId; label: string; occupations: Occupation[] }[]
     id: 'hvac',
     label: 'HVAC',
     occupations: [{ id: HVAC_OCCUPATION_ID, label: HVAC_OCCUPATION_ID }],
+  },
+  {
+    id: 'software_development',
+    label: 'Software Development',
+    occupations: [
+      { id: 'General and Operations Managers', label: 'General and Operations Managers' },
+      { id: 'Software Developers', label: 'Software Developers' },
+      {
+        id: 'Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products',
+        label: 'Sales Representatives, Wholesale & Manufacturing',
+      },
+    ],
+  },
+  {
+    id: 'accounting',
+    label: 'Accounting',
+    occupations: [
+      { id: 'Accountants and Auditors', label: 'Accountants and Auditors' },
+      { id: 'Computer Systems Analysts', label: 'Computer Systems Analysts' },
+      { id: 'Management Analysts', label: 'Management Analysts' },
+    ],
+  },
+  {
+    id: 'business_consulting',
+    label: 'Business Consulting & Services',
+    occupations: [
+      { id: 'Management Analysts', label: 'Management Analysts' },
+      { id: 'General and Operations Managers', label: 'General and Operations Managers' },
+      { id: 'Computer Systems Analysts', label: 'Computer Systems Analysts' },
+    ],
+  },
+  {
+    id: 'financial_services',
+    label: 'Financial Services',
+    occupations: [
+      { id: 'Management Analysts', label: 'Management Analysts' },
+      { id: 'General and Operations Managers', label: 'General and Operations Managers' },
+      { id: 'Loan Officers', label: 'Loan Officers' },
+    ],
+  },
+  {
+    id: 'it_services',
+    label: 'IT Services & IT Consulting',
+    occupations: [
+      { id: 'General and Operations Managers', label: 'General and Operations Managers' },
+      { id: 'Engineers, All Other', label: 'Engineers, All Other' },
+      { id: 'Computer Systems Analysts', label: 'Computer Systems Analysts' },
+    ],
   },
 ]
 

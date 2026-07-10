@@ -1,15 +1,15 @@
 /**
- * One-way copy: repo `../data/ONet/output/` → `webapp/data/onet-output/`
+ * One-way copy: `task-analysis/data/ONet/output/` → `webapp/data/onet-output/`
  * Run from the webapp folder when the full task-analysis repo is present, so the webapp
  * folder can be copied or zipped alone and `npm run build` still finds PDFs.
  */
-import { mkdir, copyFile, stat } from 'node:fs/promises'
+import { mkdir, copyFile, stat, readdir } from 'node:fs/promises'
 import path from 'node:path'
 
-import { ONET_PDF_REL_PATHS } from './onet-pdf-manifest.mjs'
+import { ONET_COLOR_SCHEME_DIRS, ONET_PDF_REL_PATHS } from './onet-pdf-manifest.mjs'
 
 const webappRoot = path.resolve(import.meta.dirname, '..')
-const monorepoOut = path.resolve(webappRoot, '..', 'data', 'ONet', 'output')
+const monorepoOut = path.resolve(webappRoot, '..', 'task-analysis', 'data', 'ONet', 'output')
 const embeddedRoot = path.resolve(webappRoot, 'data', 'onet-output')
 
 async function ensureDirForFile(filePath) {
@@ -46,11 +46,23 @@ async function main() {
   if (missing.length) {
     console.error(
       [
-        'Missing PDFs under ../data/ONet/output (not copied):',
+        'Missing PDFs under task-analysis/data/ONet/output (not copied):',
         ...missing.map((m) => `- ${m}`),
       ].join('\n'),
     )
     process.exit(1)
+  }
+
+  for (const dir of ONET_COLOR_SCHEME_DIRS) {
+    const srcDir = path.resolve(monorepoOut, 'occupations_relevant', dir)
+    const destDir = path.resolve(embeddedRoot, 'occupations_relevant', dir)
+    const entries = await readdir(srcDir)
+    for (const name of entries) {
+      if (!name.endsWith('.pdf')) continue
+      await mkdir(destDir, { recursive: true })
+      await copyFile(path.resolve(srcDir, name), path.resolve(destDir, name))
+      copied += 1
+    }
   }
 
   console.log(`Copied ${copied} PDF(s) into ${path.relative(webappRoot, embeddedRoot)}/`)
