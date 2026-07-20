@@ -8,6 +8,10 @@ export type TrackId =
   | 'business_consulting'
   | 'financial_services'
   | 'it_services'
+  | 'retail_supply_chain'
+  | 'healthcare'
+  | 'robotics_automated'
+  | 'airport'
 
 const HVAC_OCCUPATION_ID =
   'Heating, Air Conditioning, and Refrigeration Mechanics and Installers'
@@ -42,6 +46,21 @@ export const OCCUPATION_ONET_SUMMARY_URL: Record<string, string> = {
   'Management Analysts': 'https://www.onetonline.org/link/summary/13-1111.00',
   'Loan Officers': 'https://www.onetonline.org/link/summary/13-2072.00',
   'Engineers, All Other': 'https://www.onetonline.org/link/summary/17-2199.00',
+  'Shipping, Receiving, and Inventory Clerks':
+    'https://www.onetonline.org/link/summary/43-5071.00',
+  Logisticians: 'https://www.onetonline.org/link/summary/13-1081.00',
+  'Logistics Analysts': 'https://www.onetonline.org/link/summary/13-1081.02',
+  'Cargo and Freight Agents': 'https://www.onetonline.org/link/summary/43-5011.00',
+  'Stockers and Order Fillers': 'https://www.onetonline.org/link/summary/53-7065.00',
+  'Robotics Technicians': 'https://www.onetonline.org/link/summary/17-3024.01',
+  'Farm Equipment Mechanics and Service Technicians':
+    'https://www.onetonline.org/link/summary/49-3041.00',
+  'Electrical and Electronics Installers and Repairers, Transportation Equipment':
+    'https://www.onetonline.org/link/summary/49-2093.00',
+  'Air Traffic Controllers': 'https://www.onetonline.org/link/summary/53-2021.00',
+  'Aircraft Mechanics and Service Technicians':
+    'https://www.onetonline.org/link/summary/49-3011.00',
+  'Cleaners of Vehicles and Equipment': 'https://www.onetonline.org/link/summary/53-7061.00',
 }
 
 export const TRACKS: { id: TrackId; label: string; occupations: Occupation[] }[] = [
@@ -122,6 +141,63 @@ export const TRACKS: { id: TrackId; label: string; occupations: Occupation[] }[]
       { id: 'General and Operations Managers', label: 'General and Operations Managers' },
       { id: 'Engineers, All Other', label: 'Engineers, All Other' },
       { id: 'Computer Systems Analysts', label: 'Computer Systems Analysts' },
+    ],
+  },
+  {
+    id: 'retail_supply_chain',
+    label: 'Retail Supply Chain and Logistics',
+    occupations: [
+      {
+        id: 'Shipping, Receiving, and Inventory Clerks',
+        label: 'DC Supply Chain Associate (WalMart)',
+      },
+      { id: 'Logisticians', label: 'Logistics Coordinator (JB Hunt)' },
+      { id: 'Logistics Analysts', label: 'Transportation Operations Analyst (Tyson Foods)' },
+      { id: 'Cargo and Freight Agents', label: 'Transportation Coordinator (WalMart)' },
+      { id: 'Stockers and Order Fillers', label: 'Replenishment Associate (WalMart)' },
+    ],
+  },
+  {
+    id: 'healthcare',
+    label: 'Healthcare',
+    occupations: [
+      {
+        id: 'Registered Nurses',
+        label: 'Registered Nurse (AI clinical decision support)',
+      },
+    ],
+  },
+  {
+    id: 'robotics_automated',
+    label: 'Robotics and Automated Systems',
+    occupations: [
+      {
+        id: 'Robotics Technicians',
+        label: 'Supply Chain / Micro-Fulfillment Center (MFC) Technician',
+      },
+      {
+        id: 'Farm Equipment Mechanics and Service Technicians',
+        label: 'Poultry Genetics & Hatchery Environmental Controls Technician',
+      },
+      {
+        id: 'Electrical and Electronics Installers and Repairers, Transportation Equipment',
+        label: 'Logistics Telematics & Autonomous Fleet Technician',
+      },
+    ],
+  },
+  {
+    id: 'airport',
+    label: 'Airport',
+    occupations: [
+      { id: 'Air Traffic Controllers', label: 'Air Traffic Controllers' },
+      {
+        id: 'Aircraft Mechanics and Service Technicians',
+        label: 'Aircraft Mechanics and Service Technicians',
+      },
+      {
+        id: 'Cleaners of Vehicles and Equipment',
+        label: 'Cleaners of Vehicles and Equipment',
+      },
     ],
   },
 ]
